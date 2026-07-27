@@ -1,46 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Customer Order Form</title>
 
 <style>
 body{
-font-family:Arial;
-background:#f2f2f2;
-display:flex;
-justify-content:center;
-padding:40px;
+    font-family:Arial,sans-serif;
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    padding:40px;
 }
 
 .container{
-background:white;
-padding:25px;
-width:400px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.2);
+    background:white;
+    padding:25px;
+    width:400px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+h2{
+    text-align:center;
 }
 
 input{
-width:100%;
-padding:10px;
-margin:8px 0;
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    box-sizing:border-box;
 }
 
 button{
-width:100%;
-padding:12px;
-background:#28a745;
-color:white;
-border:none;
-cursor:pointer;
-font-size:16px;
+    width:100%;
+    padding:12px;
+    background:#28a745;
+    color:white;
+    border:none;
+    cursor:pointer;
+    font-size:16px;
 }
 
 button:hover{
-background:#218838;
+    background:#218838;
+}
+
+button:disabled{
+    background:grey;
+    cursor:not-allowed;
+}
+
+#result{
+    margin-top:15px;
+    text-align:center;
+    font-weight:bold;
 }
 </style>
-
 </head>
 
 <body>
@@ -60,7 +78,7 @@ background:#218838;
 <input id="deliveryLocation" placeholder="Delivery Location" required>
 
 <button id="submitBtn" onclick="submitOrder()">
-    Submit Order
+Submit Order
 </button>
 
 <p id="result"></p>
@@ -71,32 +89,66 @@ background:#218838;
 
 async function submitOrder(){
 
+const button=document.getElementById("submitBtn");
+
+button.disabled=true;
+button.innerHTML="Submitting...";
+
 const data={
+
 customerName:document.getElementById("customerName").value,
+
 phone:document.getElementById("phone").value,
+
 product:document.getElementById("product").value,
+
 quantity:document.getElementById("quantity").value,
+
 deliveryLocation:document.getElementById("deliveryLocation").value
+
 };
 
-const response = await fetch("https://promiselab.app.n8n.cloud/webhook/customer-order", {
+try{
+
+const response=await fetch("https://promiselab.app.n8n.cloud/webhook/customer-order", {
+
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify(data)
+
 });
 
-if (response.ok) {
-    document.getElementById("result").innerHTML =
-        "✅ Order submitted successfully!";
+if(response.ok){
 
-    document.getElementById("customerName").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("product").value = "";
-    document.getElementById("quantity").value = "";
-    document.getElementById("deliveryLocation").value = "";
+document.getElementById("result").innerHTML=
+"✅ Order submitted successfully!";
+
+document.getElementById("customerName").value="";
+document.getElementById("phone").value="";
+document.getElementById("product").value="";
+document.getElementById("quantity").value="";
+document.getElementById("deliveryLocation").value="";
+
+}else{
+
+document.getElementById("result").innerHTML=
+"❌ Failed to submit order.";
+
 }
+
+}catch(error){
+
+document.getElementById("result").innerHTML=
+"❌ Network error.";
+
+}
+
+button.disabled=false;
+button.innerHTML="Submit Order";
 
 }
 
