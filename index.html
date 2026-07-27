@@ -87,7 +87,16 @@ headers:{
 body:JSON.stringify(data)
 });
 
-document.getElementById("result").innerHTML="Order Submitted Successfully!";
+if (response.ok) {
+    document.getElementById("result").innerHTML =
+        "✅ Order submitted successfully!";
+
+    document.getElementById("customerName").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("product").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("deliveryLocation").value = "";
+}
 
 }
 
