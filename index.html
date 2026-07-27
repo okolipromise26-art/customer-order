@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Customer Order Form</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+padding:40px;
+}
+
+.container{
+background:white;
+padding:25px;
+width:400px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#28a745;
+color:white;
+border:none;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#218838;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Customer Order Form</h2>
+
+<input id="customerName" placeholder="Customer Name">
+
+<input id="phone" placeholder="Phone Number">
+
+<input id="product" placeholder="Product">
+
+<input id="quantity" placeholder="Quantity">
+
+<input id="deliveryLocation" placeholder="Delivery Location">
+
+<button onclick="submitOrder()">Submit Order</button>
+
+<p id="result"></p>
+
+</div>
+
+<script>
+
+async function submitOrder(){
+
+const data={
+customerName:document.getElementById("customerName").value,
+phone:document.getElementById("phone").value,
+product:document.getElementById("product").value,
+quantity:document.getElementById("quantity").value,
+deliveryLocation:document.getElementById("deliveryLocation").value
+};
+
+const response = await fetch("https://promiselab.app.n8n.cloud/webhook/customer-order", {
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+});
+
+document.getElementById("result").innerHTML="Order Submitted Successfully!";
+
+}
+
+</script>
+
+</body>
+</html>
