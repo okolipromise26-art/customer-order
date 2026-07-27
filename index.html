@@ -49,17 +49,19 @@ background:#218838;
 
 <h2>Customer Order Form</h2>
 
-<input id="customerName" placeholder="Customer Name">
+<input id="customerName" placeholder="Customer Name" required>
 
-<input id="phone" placeholder="Phone Number">
+<input id="phone" type="tel" placeholder="Phone Number" required>
 
-<input id="product" placeholder="Product">
+<input id="product" placeholder="Product" required>
 
-<input id="quantity" placeholder="Quantity">
+<input id="quantity" type="number" min="1" placeholder="Quantity" required>
 
-<input id="deliveryLocation" placeholder="Delivery Location">
+<input id="deliveryLocation" placeholder="Delivery Location" required>
 
-<button onclick="submitOrder()">Submit Order</button>
+<button id="submitBtn" onclick="submitOrder()">
+    Submit Order
+</button>
 
 <p id="result"></p>
 
